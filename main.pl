@@ -22,7 +22,10 @@ if($isContainsEqual != 0)
 {
 	print ("OK!");
 
-	my @array = split(/=/,$targetstr);
+	open(DATAFILE,	"<abc.txt") or die("Error:$!");
+	my $line = <DATAFILE>;
+	
+	my @array = split(/=/,$line);
 	print ($array[0] . "is" . $array[1] . "\n");
 }
 else
