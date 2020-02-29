@@ -8,7 +8,6 @@ foreach my $a(<test.txt>){
 }
 
 
-
 #標準入力
 my $line = <STDIN>;
 chomp($line);
@@ -27,16 +26,29 @@ if($isContainsEqual != 0)
 	my $content = do {local $/; <$fh> };
 
 	#各行に分けて処理
-	my @arrayLine = split(/\n/,$content);
-	for(my $count = 0; $count < $#arrayLine+1; $count++)
+	my @fileLine = split(/\n/,$content);
+	my @title = ("question","answer");
+	my @arrayS = \@title;
+	my $sepatacrow = \@arrayS;
+
+	for(my $count = 0; $count < $#fileLine+1; $count++)
 	{
-		#arrayLineを直接見れば要素数がもらえる
-		my $str = $arrayLine[$count];
+		#(@#fileLine+1)を見れば要素数がもらえる
+		my $str = $fileLine[$count];
 		#print ($str . "spell\n");
 
-		my @array = split(/=/,$str);
-		print ($array[0] . " is ". $array[1] . "\n");
+		my @arrayK = split(/=/,$str);
+		print ($arrayK[0] . " is ". $arrayK[1] . "\n");
+		push(@arrayS,(\@arrayK));
+	}
 
+	#全要素を展開
+	for my $datas (@$sepatacrow) 
+	{
+		for my $element (@$datas)
+		{
+			print "$element\n";
+		}
 	}
 }
 else
