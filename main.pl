@@ -21,12 +21,23 @@ my $isContainsEqual = ($targetstr =~ /=/);
 if($isContainsEqual != 0)
 {
 	print ("OK!");
+	#fileからデータを読み取る
+	my $file ='abc.txt';
+	open(my $fh, '<', $file) or die("Can't open $file:$!");
+	my $content = do {local $/; <$fh> };
 
-	open(DATAFILE,	"<abc.txt") or die("Error:$!");
-	my $line = <DATAFILE>;
-	
-	my @array = split(/=/,$line);
-	print ($array[0] . "is" . $array[1] . "\n");
+	#各行に分けて処理
+	my @arrayLine = split(/\n/,$content);
+	for(my $count = 0; $count < $#arrayLine+1; $count++)
+	{
+		#arrayLineを直接見れば要素数がもらえる
+		my $str = $arrayLine[$count];
+		#print ($str . "spell\n");
+
+		my @array = split(/=/,$str);
+		print ($array[0] . " is ". $array[1] . "\n");
+
+	}
 }
 else
 {
