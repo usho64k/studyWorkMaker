@@ -7,6 +7,19 @@ foreach my $a(<test.txt>){
 @strary=(@strary,$a);
 }
 
+my @rndArr = (int(rand 13),int(rand 10),int(rand 10));
+
+print "(1) seed 調査用\n";
+for my $i (1 .. 10)
+{
+	print "$i回目: ".int(rand 10) ."\n";
+}
+print "(2) 本番\n";
+for my $i(0 .. 2)
+{
+	print "$i番目: $rndArr[$i] \n";
+}
+
 
 #標準入力
 my $line = <STDIN>;
@@ -29,25 +42,32 @@ if($isContainsEqual != 0)
 	my @fileLine = split(/\n/,$content);
 	my @title = ("question","answer");
 	my @arrayS = \@title;
-	my $sepatacrow = \@arrayS;
+	my $arrayP = \@arrayS;
 
 	for(my $count = 0; $count < $#fileLine+1; $count++)
 	{
 		#(@#fileLine+1)を見れば要素数がもらえる
 		my $str = $fileLine[$count];
-		#print ($str . "spell\n");
 
+		#questionとanswerに分ける
 		my @arrayK = split(/=/,$str);
 		print ($arrayK[0] . " is ". $arrayK[1] . "\n");
 		push(@arrayS,(\@arrayK));
 	}
+	print "\n\n";
 
 	#全要素を展開
-	for my $datas (@$sepatacrow) 
+	my $cnt = 0;
+
+	for my $datas (@$arrayP) 
 	{
 		for my $element (@$datas)
 		{
-			print "$element\n";
+			if(($cnt % 2 == 0) && ($cnt / 2 == $rndArr[0]))
+			{
+				print "$element\n";
+			}
+			$cnt++;
 		}
 	}
 }
@@ -55,3 +75,5 @@ else
 {
 	print ("NG");
 }
+
+
