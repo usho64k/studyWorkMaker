@@ -7,14 +7,10 @@ foreach my $a(<test.txt>){
 @strary=(@strary,$a);
 }
 
+#乱数生成
 my @rndArr = (int(rand 13),int(rand 10),int(rand 10));
 
-print "(1) seed 調査用\n";
-for my $i (1 .. 10)
-{
-	print "$i回目: ".int(rand 10) ."\n";
-}
-print "(2) 本番\n";
+print "(1) 本番\n";
 for my $i(0 .. 2)
 {
 	print "$i番目: $rndArr[$i] \n";
@@ -32,10 +28,12 @@ my $isContainsEqual = ($targetstr =~ /=/);
 
 if($isContainsEqual != 0)
 {
-	print ("OK!");
+	#print ("OK!");
+
 	#fileからデータを読み取る
 	my $file ='abc.txt';
 	open(my $fh, '<', $file) or die("Can't open $file:$!");
+	#ファイルの内容をcontentに入れる
 	my $content = do {local $/; <$fh> };
 
 	#各行に分けて処理
@@ -58,6 +56,7 @@ if($isContainsEqual != 0)
 
 	#全要素を展開
 	my $cnt = 0;
+	my $anscnt = 0;
 
 	for my $datas (@$arrayP) 
 	{
@@ -65,11 +64,19 @@ if($isContainsEqual != 0)
 		{
 			if(($cnt % 2 == 0) && ($cnt / 2 == $rndArr[0]))
 			{
+				$anscnt = $cnt;
 				print "$element\n";
 			}
 			$cnt++;
 		}
 	}
+	
+	my $ansover = 10;
+	while($ansover > 0)
+	{
+		
+	}
+
 }
 else
 {

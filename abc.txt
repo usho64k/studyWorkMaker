@@ -1,7 +1,7 @@
 hello=こんにちは
 Thank you=ありがとう
 Good morning=おはよう
-Good afternoon=こんにちは
+Good afternoon=こんにちは(昼)
 Good evening=こんばんは
 How are you?=お元気ですか
 I'm fine=元気です
