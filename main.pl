@@ -2,85 +2,129 @@
 use strict;
 use warnings;
 
-my @strary;
-foreach my $a(<test.txt>){
-@strary=(@strary,$a);
+#ファイル名を与える
+my $fileName = 'abc.txt';
+
+#読み込み処理
+my $fh2 = readfile($fileName);				#ファイル読み込み
+my $f_cont = do {local $/; <$fh2> };		#ファイル内容をf_contに代入 
+my @fileLine = split(/\n/,$f_cont);			#各行に分けて処理
+
+#QA表を作成する
+my @qalist = ("answer","question");
+my @arrayS = \@qalist;
+my $arrayP = \@arrayS;
+
+for(my $count = 0; $count < $#fileLine+1; $count++)
+{
+	#count行目を参照する
+	my $str = $fileLine[$count];
+
+	#questionとanswerに分けてarrayS(=qalistのリファレンス)に
+	#strElemのリファレンスを追加する
+	my @strElem = split(/=/,$str);
+	push(@arrayS,(\@strElem));
 }
 
-#乱数生成
-my @rndArr = (int(rand 13),int(rand 10),int(rand 10));
-
-print "(1) 本番\n";
-for my $i(0 .. 2)
+#ゲームフェーズ
+my $continue = 1;
+while($continue == 1)
 {
-	print "$i番目: $rndArr[$i] \n";
-}
-
-
-#標準入力
-my $line = <STDIN>;
-chomp($line);
-print "a : $line \n";
-
-#基本的にはこの使い方をする
-my $targetstr = "卑弥=呼邪馬台国の女王";
-my $isContainsEqual = ($targetstr =~ /=/);
-
-if($isContainsEqual != 0)
-{
-	#print ("OK!");
-
-	#fileからデータを読み取る
-	my $file ='abc.txt';
-	open(my $fh, '<', $file) or die("Can't open $file:$!");
-	#ファイルの内容をcontentに入れる
-	my $content = do {local $/; <$fh> };
-
-	#各行に分けて処理
-	my @fileLine = split(/\n/,$content);
-	my @title = ("question","answer");
-	my @arrayS = \@title;
-	my $arrayP = \@arrayS;
-
-	for(my $count = 0; $count < $#fileLine+1; $count++)
+	my @qaNum = (int(rand $#fileLine+1),int(rand 4));
+	my @ans_otherSel = ($qaNum[1]);
+	for my $num (0 .. 2)
 	{
-		#(@#fileLine+1)を見れば要素数がもらえる
-		my $str = $fileLine[$count];
-
-		#questionとanswerに分ける
-		my @arrayK = split(/=/,$str);
-		print ($arrayK[0] . " is ". $arrayK[1] . "\n");
-		push(@arrayS,(\@arrayK));
+		push(@ans_otherSel,makerand($#fileLine+1,@ans_otherSel));
 	}
-	print "\n\n";
 
-	#全要素を展開
-	my $cnt = 0;
-	my $anscnt = 0;
+	#問題を出す
+	print $arrayP->[$qaNum[0]][1]."\n";
 
-	for my $datas (@$arrayP) 
+	#選択肢を出す
+	my $ansprCnt = 0;
+	for(my $i = 0; $i < 4; $i++)
 	{
-		for my $element (@$datas)
+		if($qaNum[1] != $i)
 		{
-			if(($cnt % 2 == 0) && ($cnt / 2 == $rndArr[0]))
-			{
-				$anscnt = $cnt;
-				print "$element\n";
-			}
-			$cnt++;
+			print $i.":".$arrayP->[$ans_otherSel[$ansprCnt]][0]."\n";
+			$ansprCnt++;
+		}
+		else
+		{
+			print $i.":".$arrayP->[$qaNum[0]][0]."\n";
 		}
 	}
-	
-	my $ansover = 10;
-	while($ansover > 0)
+
+	#答えを入力
+	my $userAns = <STDIN>;
+	chomp($userAns);
+	print "ans : $userAns \n";
+
+	#正解or不正解
+	if($userAns == $qaNum[1])
 	{
-		
+		print "正解\n";
+	}
+	else
+	{
+		print "不正解\n";
 	}
 
-}
-else
-{
-	print ("NG");
+	#煽る
+	print "again?\n";
+	my $userAns2 = <STDIN>;
+	chomp($userAns2);
+	print " <<<$userAns2>>>  ";
+	if($userAns2 ne "yes")
+	{
+		$continue = 0;
+	}
 }
 
+#以下サブルーチン
+
+#ファイルを読み込む処理
+sub readfile
+{
+	my $fname = shift;
+	open(my $fh,'<',$fname) or die("Can't open $fname:$!");
+
+	return $fh;
+}
+
+#乱数処理
+sub makerand
+{
+	my ($lines, @search_list) = @_;
+
+	#繰り返し変数と返り値変数
+	my $continue = 1;
+	my $ret = 0;
+
+	#繰り返しフラグが立っていれば繰り返す
+	while($continue == 1)
+	{
+		#乱数を一つ取得
+		$ret = int(rand $lines);
+
+		#重複を検出するとdupleが1になり、continueが変わらず続行
+		#重複しなければdupleが0のまま、continueが0になって終了
+		#my @matches = grep {$_ == $ret} @search_list;
+		#my $duple = $matches;
+		
+		my $duple = 0;
+		for my $num (@search_list)
+		{
+			if($num == $ret)
+			{
+				$duple = 1;
+			}
+		}
+		if($duple == 0)
+		{
+			$continue = 0;
+		}
+	}
+	return $ret;
+}
 
