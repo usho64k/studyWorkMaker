@@ -2,8 +2,8 @@
 use strict;
 use warnings;
 
-#ファイル名を与える
-my $fileName = 'abc.txt';
+#ファイル名は引数で与える
+my ($fileName,$dummy) = @ARGV;
 
 #読み込み処理
 my $fh2 = readfile($fileName);				#ファイル読み込み
@@ -28,6 +28,8 @@ for(my $count = 0; $count < $#fileLine+1; $count++)
 
 #ゲームフェーズ
 my $continue = 1;
+my $correct = 0;
+my $incorrect = 0;
 while($continue == 1)
 {
 
@@ -39,14 +41,9 @@ while($continue == 1)
 	{
 		push(@ans_otherSel,makerand($#fileLine+1,$qaNum[0],@ans_otherSel));
 	}
-	print($qaNum[0]."\n");
-	print($ans_otherSel[0]."\n");
-	print($ans_otherSel[1]."\n");
-	print($ans_otherSel[2]."\n");
-	print($ans_otherSel[3]."\n");
 
 	#問題を出す
-	print $arrayP->[$qaNum[0]][1]."\n";
+	print $arrayP->[$qaNum[0]][1]."\n\n";
 
 	#選択肢を出す
 	my $ansprCnt = 0;
@@ -62,6 +59,7 @@ while($continue == 1)
 			print $i.":".$arrayP->[$qaNum[0]][0]."\n";
 		}
 	}
+	print "\n";
 
 	#答えを入力
 	my $userAns = <STDIN>;
@@ -71,18 +69,23 @@ while($continue == 1)
 	#正解or不正解
 	if($userAns == $qaNum[1])
 	{
-		print "正解\n";
+		print "正解\n\n";
+		$correct++;
 	}
 	else
 	{
 		print "不正解\n";
+		print "正解は".$qaNum[1].":".$arrayP->[$qaNum[0]][0]."\n\n";
+		$incorrect++;
 	}
 
+	print "Score $correct and failed $incorrect \n";
+
 	#煽る
-	print "again?\n please tap y to continue solving questions\n";
+	print "again?\n please tap y to continue solving questions\n\n";
 	my $userAns2 = <STDIN>;
 	chomp($userAns2);
-	print " <<<$userAns2>>>  \n";
+	print " <<<$userAns2>>>  \n\n\n";
 	if($userAns2 ne "y")
 	{
 		$continue = 0;
