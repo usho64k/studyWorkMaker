@@ -30,12 +30,20 @@ for(my $count = 0; $count < $#fileLine+1; $count++)
 my $continue = 1;
 while($continue == 1)
 {
+
+	#問題・正解が4択のうちどれかを取得
 	my @qaNum = (int(rand $#fileLine+1),int(rand 4));
+	#他の選択肢を取得
 	my @ans_otherSel = ($qaNum[1]);
 	for my $num (0 .. 2)
 	{
-		push(@ans_otherSel,makerand($#fileLine+1,@ans_otherSel));
+		push(@ans_otherSel,makerand($#fileLine+1,$qaNum[0],@ans_otherSel));
 	}
+	print($qaNum[0]."\n");
+	print($ans_otherSel[0]."\n");
+	print($ans_otherSel[1]."\n");
+	print($ans_otherSel[2]."\n");
+	print($ans_otherSel[3]."\n");
 
 	#問題を出す
 	print $arrayP->[$qaNum[0]][1]."\n";
@@ -71,11 +79,11 @@ while($continue == 1)
 	}
 
 	#煽る
-	print "again?\n";
+	print "again?\n please tap y to continue solving questions\n";
 	my $userAns2 = <STDIN>;
 	chomp($userAns2);
-	print " <<<$userAns2>>>  ";
-	if($userAns2 ne "yes")
+	print " <<<$userAns2>>>  \n";
+	if($userAns2 ne "y")
 	{
 		$continue = 0;
 	}
@@ -95,7 +103,7 @@ sub readfile
 #乱数処理
 sub makerand
 {
-	my ($lines, @search_list) = @_;
+	my ($lines, $oksel, @search_list) = @_;
 
 	#繰り返し変数と返り値変数
 	my $continue = 1;
@@ -116,6 +124,10 @@ sub makerand
 		for my $num (@search_list)
 		{
 			if($num == $ret)
+			{
+				$duple = 1;
+			}
+			if($oksel == $ret)
 			{
 				$duple = 1;
 			}
