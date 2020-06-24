@@ -1,0 +1,149 @@
+<!-- ここからPHP記述(可読性上げるためにHTMLより先に記述 -->
+<?php 
+$qanda = array();
+
+$dsn = 'mysql:dbname=test_t;host=localhost;charset=utf8';
+$usr = 'root';
+$pas = 'ubuntu';
+$elemCnt = 0;
+
+try{
+	$dbh = new PDO($dsn,$usr,$pas);
+
+	$sqlStr = "select * from papipu";	#クエリは閉じなくてOK
+	$stmt = $dbh->query($sqlStr);
+
+	#デバッグ用表示(<DEBUG)
+	foreach($stmt as $row){
+		//文字列要素連結
+		$aryEnv = array('ques'=>$row['answer'],'ans'=>$row['question']);
+		array_push($qanda,$aryEnv);
+		$elemCnt += 1;
+	}
+
+}catch(PDOException $e){
+	//例外処理(<DEBUG)
+	exit($e->getMessage());
+	//<Exception end.
+}
+
+//乱数で問題番号・正解選択肢番号・不正解選択肢の問題番号を取得
+$qnum = rand(1,$elemCnt);	//問題数は全問題・回答数から乱数取得
+$anum = rand(0,3);			//選択肢4つ
+$gnum = array();			//配列としておいておく
+$cnt = 0;
+
+//不正解選択肢の準備(正解問題番号とかぶりが発生しないように誤答選択肢を用意する
+while($cnt < 3){
+	$gnum_temp = rand(1,$elemCnt);
+	$cnt_d = -1;
+	while($cnt_d < $cnt)
+	{
+		//最初の1つめには正解の問題番号と比較
+		if($cnt_d == -1)
+		{
+			if(!($gnum_temp == $qnum))
+			{
+				$cnt_d += 1;
+			}
+			else
+			{
+				//かぶり
+				$gnum_temp = rand(1,$elemCnt);
+				$cnt_d = -1;
+			}
+		}
+		else
+		{
+			if(!($gnum_temp == $gnum[$cnt_d]))
+			{
+				$cnt_d += 1;
+			}
+			else
+			{
+				//かぶり
+				$gnum_temp = rand(1,$elemCnt);
+				$cnt_d = -1;
+			}
+		}
+	}
+	array_push($gnum,$gnum_temp);
+	$cnt += 1;
+}
+
+?>
+<!-- ここからHTML記述 -->
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+	<meta charset="UTF-8">
+	<title> stww JS </title>
+
+	<!-- CSS -->
+	<style>
+		mSelFont{
+			font-size:	20px;
+			color:		blue;
+		}
+		.samp1{
+			display:	block;
+			background-color:	#FFFF00;
+		}
+		.samp2{
+			display:	none;
+			background-color:	#ABCDEF;
+		}
+	</style>
+
+	<!-- JavaScript -->
+	<script type="text/javascript" src="./stww.js"></script>
+
+	</head>
+
+	<body bgcolor=#987654 onLoad="onLoad()">
+	<p> テスト： <?php print($_GET['succ']+$_GET['fail']+1); ?></p>
+	問題<br>
+	<mSelFont><b>以下の説明文は、どの単語の説明文でしょうか。</b></mSelFont><br>
+	<?= $qanda[$qnum - 1]['ques'] ?><br><br>
+	
+
+	<!-- 問題表示画面(デフォルトで表示状態) -->
+	<form class="samp1" name="test" id="quesDisp">
+	
+	<?php
+		$gcnt = 0;
+		$cnt = 0;
+		while($cnt < 4)
+		{
+			if($anum == $cnt)
+			{
+				print("<input id=\"a_btn\" type=\"button\" ");
+				print("value=\"".$qanda[$qnum - 1]['ans']."\" ");
+				print("onClick=\"successPointAdd()\">");
+			}
+			else
+			{
+				print("<input id=\"n_btn\" type=\"button\" ");
+				print("value=\"".$qanda[$gnum[$gcnt] - 1]['ans']."\" ");
+				print("onClick=\"failurePointAdd()\">");
+				$gcnt += 1;
+			}
+			$cnt += 1;
+		}
+	?>
+	
+	</form>
+
+	<!-- 正誤判定画面(JavaScriptでStyle切り替える) -->
+	<form class="samp2" name="answerDisp" id="ansDisp">
+	<h1> 成績 </h1>
+	
+	正解  : <p id="success"> <?= $_GET['succ'] ?> </p>
+	不正解: <p id="failed">  <?= $_GET['fail'] ?> </p>
+	
+	<a id="url_ref" href="./index.html">次の問題</a>
+
+	</form>
+
+	</body>
+</html>

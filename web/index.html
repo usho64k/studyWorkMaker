@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<title> study work maker Ver.WEB</title>
+	</head>
+
+	<body>
+		<h1> STUDY WORK MAKER (Ver.WEB) </h1>
+		ファイルを選んでください。<br>
+		<!-- CSVファイルのアップロード用フォーム -->
+		<form name="form1" method="post" action="./inputToSql.cgi" enctype="multipart/form-data">
+
+			<input type="file" id="csvSel" name="csvSel" size="8">
+			<input type="submit" name="submit" value="展開">
+			<br>
+			<a href="./stwwTest/index.html?succ=0&fail=0">どうぞ</a>
+		</form>
+	</body>
+</html>
+
+	
