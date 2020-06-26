@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.util.ArrayList;											//リスト配列
+import java.util.List;												//リスト
+
 import org.springframework.stereotype.Controller;					//WebController呼び出し(Jastsなら必須)
 import org.springframework.web.bind.annotation.RequestMapping;		//HTMLアクセスを受け取るRequestMappingクラス
 
@@ -45,6 +48,14 @@ public class mainCtrller {
 		return mav;
 	}
 	
+	@RequestMapping(value="/arytest")
+	public ModelAndView response3(@ModelAttribute ParamObject_test2 members) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index3");
+		mav.addObject("result",members.getMembers());
+		return mav;
+	}
+	
 	
 	
 	//tellResponseアクセスで返すオブジェクト
@@ -57,5 +68,40 @@ public class mainCtrller {
 		
 		public String getTweet() {return tweet;}
 		public void setTweet(String str) {this.tweet = str;}
+	}
+	
+	//index3で読むが、単一クラスを指定しないと受け取れない…のか？
+	public static class ParamObject_test2{
+		private List<Member> members = new ArrayList<>();
+		
+		public List<Member> getMembers() { return members; }
+		public void addMember(List<Member>members) {this.members = members;}
+		
+	}
+	
+	//ParamObject_test2のリストの親
+	public static class Member{
+		private String name;
+		private String address;
+		private String telno;
+		
+		public String getName() { return name; }
+		public void setName(String str) {this.name = str;}
+		public String getAddress() { return address; }
+		public void setAddress(String str) { this.address = str;}
+		public String getTelno() { return telno; }
+		public void setTelno(String str) { this.telno = str; }
+		
+		
+		//Default Constructor (Newしたときに何も指定しない型を用意しないとJavaはだめなんだっけ？
+		public Member() {}
+		
+		//Constructor
+		public Member(String name,String address,String telno)
+		{
+			this.name = name;
+			this.address = address;
+			this.telno = telno;
+		}
 	}
 }

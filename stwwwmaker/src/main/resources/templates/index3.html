@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>STS test 3 _ Relational of Class</title>
+</head>
+
+<body>
+	<h3>Customer Information</h3>
+	<form action="/arytest">
+		<table>
+			<tr>
+				<!-- 題目 -->
+				<th>Name</th>
+				<th>Address</th>
+				<th>TelNo</th>
+			</tr>
+			<tr>
+				<td><input type="text" name="members[0].name"></td>
+				<td><input type="text" name="members[0].address"></td>
+				<td><input type="text" name="members[0].telno"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="members[1].name"></td>
+				<td><input type="text" name="members[1].address"></td>
+				<td><input type="text" name="members[1].telno"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="members[2].name"></td>
+				<td><input type="text" name="members[2].address"></td>
+				<td><input type="text" name="members[2].telno"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="members[3].name"></td>
+				<td><input type="text" name="members[3].address"></td>
+				<td><input type="text" name="members[3].telno"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="members[4].name"></td>
+				<td><input type="text" name="members[4].address"></td>
+				<td><input type="text" name="members[4].telno"></td>
+			</tr>
+		</table>
+		<!-- Send button -->
+		<button type="submit">Send</button>
+	</form>
+	
+	<table>
+		<!-- データがなければ処理はしないが、表自体は存在する -->
+		<!-- foreach文…？rowはresultが配列形式ならその要素を一つ得られる、はず。 -->
+		<tr th:each="row: ${result}">
+			<td th:text="${row.name}"></td>
+			<td th:text="${row.address}"></td>
+			<td th:text="${row.telno}"></td>
+		</tr>
+	</table>
+</body>
+
+</html>
