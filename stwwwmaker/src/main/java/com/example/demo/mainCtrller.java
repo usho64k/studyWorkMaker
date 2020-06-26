@@ -20,23 +20,10 @@ public class mainCtrller {
 		return "/index.html";
 	}
 	
+	//index1.htmlを参照
 	@RequestMapping(value="/index1")
 	private String index() {
 		return "index1";	//index1.htmlを返す
-	}
-	
-	@RequestMapping(value="/index3")
-	private String index3(Model model) {
-		//最終的にindex3を参照するが、予約的にparamObject_test3を設定しておく(index3.html参照)
-		ParamObject_test2 ptemp = new ParamObject_test2();
-		for(int i = 0; i < 10; i++)
-		{
-			ptemp.members.add(new Member());
-		}
-		
-		model.addAttribute("paramObject",ptemp);
-		
-		return "index3";	//index3.htmlを返す
 	}
 	
 	@RequestMapping(value="/callResponse")
@@ -58,6 +45,23 @@ public class mainCtrller {
 		mav.addObject("response",param);
 		return mav;
 	}
+	
+	//以下index3.htmlを参照
+	@RequestMapping(value="/index3")
+	private String index3(Model model) {
+		//最終的にindex3を参照するが、予約的にparamObject_test3を設定しておく(index3.html参照)
+		ParamObject_test2 ptemp = new ParamObject_test2();
+		for(int i = 0; i < 10; i++)
+		{
+			ptemp.members.add(new Member());
+		}
+		
+		model.addAttribute("paramObject_test3",ptemp);
+		
+		return "index3";	//index3.htmlを返す
+	}
+	
+	
 	
 	@RequestMapping(value="/arytest")
 	public ModelAndView response3(@ModelAttribute ParamObject_test2 members) {
@@ -86,7 +90,7 @@ public class mainCtrller {
 		private List<Member> members = new ArrayList<>();
 		
 		public List<Member> getMembers() { return members; }
-		public void addMember(List<Member>members) {this.members = members;}
+		public void setMembers(List<Member>members) {this.members = members;}
 		
 	}
 	
