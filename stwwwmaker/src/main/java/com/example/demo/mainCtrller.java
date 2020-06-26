@@ -6,6 +6,8 @@ import java.util.List;												//リスト
 import org.springframework.stereotype.Controller;					//WebController呼び出し(Jastsなら必須)
 import org.springframework.web.bind.annotation.RequestMapping;		//HTMLアクセスを受け取るRequestMappingクラス
 
+import org.springframework.ui.Model;								//HTMLのUIの呼び込み
+
 import org.springframework.web.bind.annotation.RequestParam;		//HTMLのRequestParameterを受け取るクラス
 import org.springframework.web.servlet.ModelAndView;				//ModelAndViewオブジェクト
 
@@ -24,7 +26,16 @@ public class mainCtrller {
 	}
 	
 	@RequestMapping(value="/index3")
-	private String index3() {
+	private String index3(Model model) {
+		//最終的にindex3を参照するが、予約的にparamObject_test3を設定しておく(index3.html参照)
+		ParamObject_test2 ptemp = new ParamObject_test2();
+		for(int i = 0; i < 10; i++)
+		{
+			ptemp.members.add(new Member());
+		}
+		
+		model.addAttribute("paramObject",ptemp);
+		
 		return "index3";	//index3.htmlを返す
 	}
 	
