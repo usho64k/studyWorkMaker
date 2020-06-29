@@ -63,6 +63,7 @@ public class StwwMain {
 		public String getAnswer() {	return answer;	}
 		public void setAnswer(String str) {	answer = str;	}
 		
+		protected qaListRow() {}
 		public qaListRow(String q, String a) {
 			question = q;
 			answer = a;
