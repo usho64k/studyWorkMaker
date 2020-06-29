@@ -1,7 +1,11 @@
 package com.example.demo;
 
+//Entityは絶対必要らしい(DBに触らないならいらない)
+import javax.persistence.Entity;
+
 
 //qapush時にHTMLに渡すときに使うquestion/answer表
+@Entity
 public class qaListRow {
 
 	private String question;
