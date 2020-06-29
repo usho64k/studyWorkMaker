@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+
 @Controller
 public class StwwMain {
 	@RequestMapping(value="/")
@@ -16,8 +18,22 @@ public class StwwMain {
 	}
 	
 	@RequestMapping(value="/qapush")
-	public ModelAndView qapush(@ModelAttribute String qakjfjk) {
+	public ModelAndView qapush(Model model) {
 		ModelAndView m = new ModelAndView();
+		//貰ったCSVを展開
+		
+		//SQLにアクセスする
+		
+		//tableに表示させたい要素はqaStrsにぶっこむ(以下ぶっこみサンプル)
+		ArrayList<qaList> qalist = new ArrayList<qaList>();
+		qalist.add(new qaList("How's the weather?","It's sunny."));
+		qalist.add(new qaList("How's whether?","I'm fine."));
+		qalist.add(new qaList("How's the feather?","It's so tired."));
+		qalist.add(new qaList("How's the teacher?","It's fun."));
+		qalist.add(new qaList("How's the measure?","It's 72cm."));
+		model.addAttribute("qaStrs",qalist);
+		
+		//転送結果を表示
 		m.setViewName("index_qapush.html");
 		return m;
 	}
@@ -35,6 +51,22 @@ public class StwwMain {
 		
 		public String getFilename() { return filename;	}
 		public void setFilename(String str) {	filename = str; }
+	}
+	
+	public static class qaList{
+		private String question;
+		private String answer;
+		
+		public String getQuestion() { return question;	}
+		public void setQuestion(String str) {	question = str;	}
+		public String getAnswer() {	return answer;	}
+		public void setAnswer(String str) {	answer = str;	}
+		
+		public qaList(String q, String a) {
+			question = q;
+			answer = a;
+		}
+		
 	}
 }
 
