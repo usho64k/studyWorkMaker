@@ -25,12 +25,12 @@ public class StwwMain {
 		//SQLにアクセスする
 		
 		//tableに表示させたい要素はqaStrsにぶっこむ(以下ぶっこみサンプル)
-		ArrayList<qaList> qalist = new ArrayList<qaList>();
-		qalist.add(new qaList("How's the weather?","It's sunny."));
-		qalist.add(new qaList("How's whether?","I'm fine."));
-		qalist.add(new qaList("How's the feather?","It's so tired."));
-		qalist.add(new qaList("How's the teacher?","It's fun."));
-		qalist.add(new qaList("How's the measure?","It's 72cm."));
+		ArrayList<qaListRow> qalist = new ArrayList<qaListRow>();
+		qalist.add(new qaListRow("How's the weather?","It's sunny."));
+		qalist.add(new qaListRow("How's whether?","I'm fine."));
+		qalist.add(new qaListRow("How's the feather?","It's so tired."));
+		qalist.add(new qaListRow("How's the teacher?","It's fun."));
+		qalist.add(new qaListRow("How's the measure?","It's 72cm."));
 		model.addAttribute("qaStrs",qalist);
 		
 		//転送結果を表示
@@ -53,7 +53,8 @@ public class StwwMain {
 		public void setFilename(String str) {	filename = str; }
 	}
 	
-	public static class qaList{
+	//qapush時にHTMLに渡すときに使うquestion/answer表
+	public static class qaListRow{
 		private String question;
 		private String answer;
 		
@@ -62,7 +63,7 @@ public class StwwMain {
 		public String getAnswer() {	return answer;	}
 		public void setAnswer(String str) {	answer = str;	}
 		
-		public qaList(String q, String a) {
+		public qaListRow(String q, String a) {
 			question = q;
 			answer = a;
 		}
