@@ -1,0 +1,9 @@
+
+めんどいけど一応メモ
+springuser2 p@ssw0rd123がとりあえずのユーザ。
+
+spring.jpa.hibernate.ddl-autoは色々指定できる。
+none : MySQLのデフォルト、DB構造を変更しない
+update : 構造に従ってDBを変更する
+create : DBを毎回作成するが、削除しない。
+create-drop : DBを作成し、閉じるときに削除する。

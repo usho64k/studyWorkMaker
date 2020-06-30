@@ -1,15 +1,47 @@
 package com.example.demo;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
+
+import org.springframework.ui.Model;							//引数
+import org.springframework.web.bind.annotation.RequestMapping;	//HTMLアクセス関数登録
+import org.springframework.web.bind.annotation.RequestParam;	//URL引数をうけとるやつ
+import org.springframework.web.bind.annotation.ModelAttribute;	//HTMLに渡すThymeleaf機能クラス
+import org.springframework.web.bind.annotation.ResponseBody;	//これはしらない
+import org.springframework.web.bind.annotation.PostMapping;		//HTTPリクエストのPOSTアクセス？
+import org.springframework.web.bind.annotation.GetMapping;		//HTTPリクエストのGETアクセス？
+
+import org.springframework.web.servlet.ModelAndView;			//HTMLViewそのもの
+
+import org.springframework.beans.factory.annotation.Autowired;	//なにこれ？
 
 import java.util.ArrayList;
 
 @Controller
 public class StwwMain {
+	
+	@RequestMapping(value="/testSQL")
+	public class Controller2
+	{
+		@Autowired
+		private qaListRepository qalistRepository;
+		@PostMapping(path="/demo")
+		public @ResponseBody String addNewUser(@RequestParam String name,@RequestParam String email)
+		{
+			qaListRow r = new qaListRow("Question1","Answer1");
+			r.setQuestion("Question1Next");
+			
+			qalistRepository.save(r);
+			return "SAVED";
+		}
+		
+		@GetMapping(path="/all")
+		public @ResponseBody Iterable<qaListRow> getAllUsers(){
+			return qalistRepository.findAll();
+		}
+		
+	}
+	
+	
 	@RequestMapping(value="/")
 	public ModelAndView index(Model model) {
 		ModelAndView m = new ModelAndView();
