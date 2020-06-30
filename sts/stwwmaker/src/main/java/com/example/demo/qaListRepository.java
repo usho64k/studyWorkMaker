@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 //qaListRowを使ってDBにアクセスするInterface
-public interface qaListRepository extends CrudRepository<qaListRow, String>{
+public interface qaListRepository extends CrudRepository<qaListRow, Long>{
 	List<qaListRow> findByQuestion(String q);
-	qaListRow findByAnswer(String str);
+	List<qaListRow> findByAnswer(String str);
 	
 }
