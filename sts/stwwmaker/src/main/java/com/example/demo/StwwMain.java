@@ -47,7 +47,7 @@ public class StwwMain {
 	}
 	
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="/stwwtest")
 	public ModelAndView index(Model model) {
 		ModelAndView m = new ModelAndView();
 		m.setViewName("index1.html");
