@@ -21,8 +21,9 @@ import java.util.ArrayList;
 
 @Controller
 public class StwwMain {
+	private qaListRepository qalistRepository2;
 	
-	@Service
+	@Controller
 	@RequestMapping(value="/demo")
 	public class Controller2
 	{
@@ -53,15 +54,16 @@ public class StwwMain {
 		return m;
 	}
 	
-	@RequestMapping(value="/qapush")
-	public ModelAndView qapush(Model model) {
+	@PostMapping(value="/qapush")
+	public ModelAndView qapush(Model model,@RequestParam String question,@RequestParam String answer) {
 		ModelAndView m = new ModelAndView();
+		ArrayList<qaListRow> qalist = new ArrayList<qaListRow>();	//HTMl表示用のリスト
 		//貰ったCSVを展開
 		
 		//SQLにアクセスする
-		
+		qalistRepository2.save(new qaListRow(question,answer));
+
 		//tableに表示させたい要素はqaStrsにぶっこむ(以下ぶっこみサンプル)
-		ArrayList<qaListRow> qalist = new ArrayList<qaListRow>();
 		qalist.add(new qaListRow("How's the weather?","It's sunny."));
 		qalist.add(new qaListRow("How's whether?","I'm fine."));
 		qalist.add(new qaListRow("How's the feather?","It's so tired."));

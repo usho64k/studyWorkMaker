@@ -10,13 +10,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class StwwmakerApplication {
 	
-	private static final Logger log = 
-			LoggerFactory.getLogger(StwwmakerApplication.class);
+	//private static final Logger log = 	LoggerFactory.getLogger(StwwmakerApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(StwwmakerApplication.class, args);
 	}
-	
+	/*
 	@Bean
 	public CommandLineRunner demo(qaListRepository repository) {
 		return (args) ->{
@@ -41,5 +40,6 @@ public class StwwmakerApplication {
 			
 		};
 	}
+	*/
 
 }
