@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import org.springframework.ui.Model;							//引数
 import org.springframework.web.bind.annotation.RequestMapping;	//HTMLアクセス関数登録
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;	//HTMLに渡すTh
 import org.springframework.web.bind.annotation.ResponseBody;	//これはしらない
 import org.springframework.web.bind.annotation.PostMapping;		//HTTPリクエストのPOSTアクセス？
 import org.springframework.web.bind.annotation.GetMapping;		//HTTPリクエストのGETアクセス？
+
+
 
 import org.springframework.web.servlet.ModelAndView;			//HTMLViewそのもの
 
@@ -19,19 +22,20 @@ import java.util.ArrayList;
 @Controller
 public class StwwMain {
 	
-	@RequestMapping(value="/testSQL")
+	@Service
+	@RequestMapping(value="/demo")
 	public class Controller2
 	{
 		@Autowired
 		private qaListRepository qalistRepository;
-		@PostMapping(path="/demo")
+		@PostMapping(path="/add")
 		public @ResponseBody String addNewUser(@RequestParam String name,@RequestParam String email)
 		{
 			qaListRow r = new qaListRow("Question1","Answer1");
 			r.setQuestion("Question1Next");
 			
 			qalistRepository.save(r);
-			return "SAVED";
+			return "<p>Saved</p>";
 		}
 		
 		@GetMapping(path="/all")
