@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 	<head>
+		<meta charset="UTF-8">
 		<title> title </title>
 	</head>
 	<body> 
 		<p> Hello world! </p>
 		
-		<form action="/qaPush" method="post">
+		<form action="/qaPush" method="post" enctype="multipart/form-data" th:object="${qaListRow}">
 			<input type="file" id="qaInput" name="qaCsv" size="10"> <br>
-			<input type="text" id="qaTextQ" name="question" size="12"> <br>
-			<input type="text" id="qaTextA" name="answer" size="12"> <br>
-			<button type="submit">“WŠJ</button>
+			<!--  <input type="text" name="question" value="question1" size="12" th:field="*{question}"> <br>
+			<input type="text" name="answer" value="answer1" size="12" th:field="*{answer}"> <br> -->
+			<button type="submit">å±•é–‹</button>
 		</form>
-		<p>‚Ý‚¦‚¤H</p>
-
+		<p>Look this></p>
+	<
 		<form action="/qanda">
-			<p>–â‘è‘I‘ð</p>
-			<!-- ‚±‚±‚É–â‘èƒŠƒXƒg‚ð‘‚­ -->
+			<p>å•é¡Œé¸æŠž</p> 
+			<!-- ã“ã“ã«å•é¡Œãƒªã‚¹ãƒˆã‚’æ›¸ã -->
 			<table solid="2px">
 				<tr>
-				<th>–â‘è–¼</th>
-				<th>à–¾</th>
+				<th>å•é¡Œå</th>
+				<th>èª¬æ˜Ž</th>
 				</tr>
 				
 				<tr>
 				<th><input type="radio" name="members0_name" value="title1">Title1</th>
-				<th>à–¾1</th>
+				<th>èª¬æ˜Ž1</th>
 				</tr>
 				
 			</table>
-			<button type="submit">ŠJŽn</button>
+			<button type="submit">é–‹å§‹</button>
 			
 		</form>
+	
 	</body>
 </html>
