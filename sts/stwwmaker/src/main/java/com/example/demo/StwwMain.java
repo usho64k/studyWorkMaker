@@ -135,12 +135,28 @@ public class StwwMain {
 	}
 	
 	@RequestMapping(value="/qanda")
-	public ModelAndView qanda(@ModelAttribute qaObject qaList) {
+	public ModelAndView qanda(@ModelAttribute qaObject qaList,@RequestParam("succ") int succ,@RequestParam("fail") int fail,Model model) {
 		ModelAndView m = new ModelAndView();
+		model.addAttribute("succ",succ);				//正解数
+		model.addAttribute("fail",fail);				//不正解数
+		model.addAttribute("quest_num",succ+fail+1);	//問題番号
+		//問題
+		model.addAttribute("quest_str","きんにくをローマ字で書くとどれ？");
+		
+		//選択肢4つ
+		List<BranchesStrrr> listBranch= new ArrayList<BranchesStrrr>();
+		listBranch.add(new BranchesStrrr(true,"kinniku"));
+		listBranch.add(new BranchesStrrr(false,"mattyo"));
+		listBranch.add(new BranchesStrrr(false,"筋肉"));
+		listBranch.add(new BranchesStrrr(false,"あほか"));
+		model.addAttribute("branches",listBranch);
+		
+		
 		m.setViewName("index_qa.html");
+		
 		return m;
 	}
-
+	
 
 	public static class qaObject{
 		private String filename;

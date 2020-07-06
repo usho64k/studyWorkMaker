@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="ja" th:mlns="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title> Quiz of QUINCKET</title>
+	<link rel="stylesheet" type="text/css" href="/css/stwwFont.css"> 
 	<script type="text/javascript" src="/js/dealAnswer.js"></script>
 </head>
-<body>
+<body bgcolor=#FEDCBA onLoad="OnRefreshURL()">
 	
+	<!-- 問題表示(共通) -->
+	<p> テスト：</p><p th:text="${quest_num}"></p>
+	問題<br>
+	<mSelFont><b>以下の説明文はどの単語の説明文でしょうか。</b></mSelFont><br>
+	<p th:text="${quest_str}"></p><br><br>
+	
+	<!-- 選択肢表示(ボタンbranchesはRight(正解はTrue、不正解はFalse)/strValue) -->
+	<form class="dispQ" name="questionDisp" id="quesDisp">
+		<div class="selector" th:each="branch : ${branches}">
+			<input th:if="${branch.right}" id="a_btn" type="button" th:text="${branch.strvalue}" onClick="onButtonSuccess()">
+			<input th:unless="${branch.right}" id="n_btn" type="button" th:text="${branch.strvalue}" onClick="onButtonFailed()">
+		</div>
+	</form>
+	
+	<!-- 正誤判定表示 -->
+	<form class="dispA" name="answerDisp" id="ansDisp">
+		<h1> 成績 </h1>
+		正解　:<p id="succ" th:text="${succ}"></p>
+		不正解:<p id="fail" th:text="${fail}"></p>
+		<a id="url_ref" href="./qanda/">次の問題</a>
+	</form>
 </body>
 </html>

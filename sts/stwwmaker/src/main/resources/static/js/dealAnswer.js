@@ -12,7 +12,7 @@ function OnRefreshURL()
 	
 	//URLの参照を取得
 	var url = document.getElementById('url_ref');
-	url.href = "./qanda/?succ="+succ_num+"&fail~"+fail_num;
+	url.href = "/qanda/?succ="+succ_num+"&fail="+fail_num;
 }
 
 //画面切り替え
@@ -39,6 +39,7 @@ function onButtonSuccess()
 	OnRefreshURL();
 }
 
+//不正解ノボタンを推したとき(ボタン押下イベント関数)
 function onButtonFailed()
 {
 	switchDisplay();	//画面切り替え
@@ -51,5 +52,4 @@ function onButtonFailed()
 	
 	//URL更新
 	OnRefreshURL();
-	
 }

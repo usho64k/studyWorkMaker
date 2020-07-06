@@ -1,0 +1,13 @@
+
+mSelFont{
+	font-size:	20px;
+	color:		blue;
+}
+.dispQ{
+	display:	block;
+	background-color:	#FFFF00;
+}
+.dispA{
+	display:	none;
+	background-color:	#ABCDEF;
+}
