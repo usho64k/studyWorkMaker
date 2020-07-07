@@ -31,7 +31,7 @@ public class qaListRow {
 	
 	protected qaListRow() {}
 	public qaListRow(String q, String a) {
-		question = q;
+		question = q;			
 		answer = a;
 	}
 	

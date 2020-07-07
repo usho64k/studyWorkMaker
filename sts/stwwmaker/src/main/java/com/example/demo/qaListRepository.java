@@ -12,5 +12,4 @@ public interface qaListRepository extends CrudRepository<qaListRow, Long>{
 	
 	List<qaListRow> findByQuestion(String q);
 	List<qaListRow> findByAnswer(String str);
-	
 }
