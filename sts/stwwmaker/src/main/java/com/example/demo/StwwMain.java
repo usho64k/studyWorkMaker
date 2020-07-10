@@ -74,8 +74,8 @@ public class StwwMain
 		model.addAttribute("quest_num",succ+fail+1);	//問題番号
 
 		//問題選択
-		int lencnt = 0;
-		int cnt_selectable = 4;
+		int lencnt = 0;											//qalistの全数を取得する変数
+		int cnt_selectable = 4;									//選択肢の数
 		Iterable<qaListRow> qAll = qalistRepository.findAll();	//AllSelectする
 		List<qaListRow> vqaList = new ArrayList<qaListRow>();	//配列変換(0HeadのIdにしたいので)
 		for(qaListRow qlr : qAll)
@@ -91,20 +91,7 @@ public class StwwMain
 		model.addAttribute("quest_str",vqaList.get(qr.getQnum()).getQuestion());
 		
 		//選択肢nつを出力
-		List<BranchQaselectable> listBranch= new ArrayList<BranchQaselectable>();
-		int gcnt = 0;
-		for(int i = 0; i < cnt_selectable; i++)
-		{
-			if(qr.getAnum() == i)
-			{
-				listBranch.add(new BranchQaselectable(true,vqaList.get(qr.getQnum()).getAnswer()));
-			}
-			else
-			{
-				listBranch.add(new BranchQaselectable(false,vqaList.get(qr.getGnum()[gcnt]).getAnswer()));
-				gcnt++;
-			}			
-		}
+		List<BranchQaselectable> listBranch = BranchesQa.getBranches(cnt_selectable, qr, vqaList);
 		model.addAttribute("branches",listBranch);
 		
 		//返す
