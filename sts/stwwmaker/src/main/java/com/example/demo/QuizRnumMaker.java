@@ -8,15 +8,15 @@ public class QuizRnumMaker
 	private int qnum,anum;
 	private int gnum[] = new int[3];
 	
-	public QuizRnumMaker(int rmax) 
+	public QuizRnumMaker(int rmax,int cmax) 
 	{
 		Random r = new Random();
 		
 		qnum = r.nextInt(rmax);		//qnum確定
-		anum = r.nextInt(4);		//選択肢正解番号
+		anum = r.nextInt(cmax);		//選択肢正解番号
 		
 		//他の選択肢の内容を確定する(同じのを選ばないようにする)
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < cmax - 1; i++)
 		{
 			gnum[i] = r.nextInt(rmax);
 			for(int j = -1; j < i; j++)

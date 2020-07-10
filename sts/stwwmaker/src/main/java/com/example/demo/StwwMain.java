@@ -18,10 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;	//DIの機能をR
 import java.util.ArrayList;										//リスト(厳密型)
 import java.util.List;											//リスト(型)
 
-//コンソール画面へのデバッグ用
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 //stwwMakerの各ページアクセスのメインクラス
 @Controller
 public class StwwMain 
@@ -79,6 +75,7 @@ public class StwwMain
 
 		//問題選択
 		int lencnt = 0;
+		int cnt_selectable = 4;
 		Iterable<qaListRow> qAll = qalistRepository.findAll();	//AllSelectする
 		List<qaListRow> vqaList = new ArrayList<qaListRow>();	//配列変換(0HeadのIdにしたいので)
 		for(qaListRow qlr : qAll)
@@ -88,23 +85,23 @@ public class StwwMain
 		}
 		
 		//クイズ用乱数(問題番号や正解番号等)生成
-		QuizRnumMaker qr = new QuizRnumMaker(lencnt);
-				
+		QuizRnumMaker qr = new QuizRnumMaker(lencnt,cnt_selectable);
+		
 		//問題文出力
 		model.addAttribute("quest_str",vqaList.get(qr.getQnum()).getQuestion());
 		
-		//選択肢4つを出力
-		List<BranchesStrrr> listBranch= new ArrayList<BranchesStrrr>();
+		//選択肢nつを出力
+		List<BranchQaselectable> listBranch= new ArrayList<BranchQaselectable>();
 		int gcnt = 0;
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < cnt_selectable; i++)
 		{
 			if(qr.getAnum() == i)
 			{
-				listBranch.add(new BranchesStrrr(true,vqaList.get(qr.getQnum()).getAnswer()));
+				listBranch.add(new BranchQaselectable(true,vqaList.get(qr.getQnum()).getAnswer()));
 			}
 			else
 			{
-				listBranch.add(new BranchesStrrr(false,vqaList.get(qr.getGnum()[gcnt]).getAnswer()));
+				listBranch.add(new BranchQaselectable(false,vqaList.get(qr.getGnum()[gcnt]).getAnswer()));
 				gcnt++;
 			}			
 		}
