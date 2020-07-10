@@ -3,34 +3,26 @@ package com.example.demo;
 import org.springframework.stereotype.Controller;
 
 //Springframework.web.bind系 汎用クラス
-import org.springframework.ui.Model;							//引数
+import org.springframework.ui.Model;							//Thymeleafオブジェクトにアクセスするための引数
 import org.springframework.web.bind.annotation.RequestMapping;	//HTMLアクセス関数登録するためのアノテーション
 import org.springframework.web.bind.annotation.RequestParam;	//URL引数をうけとるためのアノテーション
 import org.springframework.web.bind.annotation.ModelAttribute;	//HTMLに渡すThymeleaf機能クラスを使うアノテーション
-import org.springframework.web.bind.annotation.ResponseBody;	//POSTで要求されるBody側Stringを返すことを明示するアノテーション
 import org.springframework.web.bind.annotation.PostMapping;		//HTTPリクエストのPOSTアクセスアノテーション
 import org.springframework.web.bind.annotation.GetMapping;		//HTTPリクエストのGETアクセスアノテーション
 import org.springframework.web.multipart.MultipartFile;			//CSV処理に必要
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;	//使っていない？
 import org.springframework.web.servlet.ModelAndView;			//HTMLViewそのもの
-import org.springframework.beans.factory.annotation.Autowired;	//なにこれ？
+import org.springframework.beans.factory.annotation.Autowired;	//DIの機能をRepositoryに入れるためのアノテーション
 
 //Java import
 import java.util.ArrayList;										//リスト(厳密型)
 import java.util.List;											//リスト(型)
-import java.util.Random;										//問題や解答選択肢の乱数用
-
-//CSV処理に必要なやつ
-import java.io.IOException;
-import java.io.InputStream;										//最初に処理するStream
-import java.io.Reader;											//Reader
-import java.io.InputStreamReader;								//StreamReader(初期化子)
-import java.io.BufferedReader;									//StreamからBufferにする
 
 //コンソール画面へのデバッグ用
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//stwwMakerの各ページアクセスのメインクラス
 @Controller
 public class StwwMain 
 {
@@ -54,57 +46,16 @@ public class StwwMain
 	{
 		ModelAndView m = new ModelAndView();
 		ArrayList<qaListRow> qalist = new ArrayList<qaListRow>();	//HTMl表示用のリスト
-		qalist.add(new qaListRow("Question","Answer"));				//題目
 
-		//貰ったCSVを展開
+		//[TODO]この処理は不明なので調べておく
 		red.addFlashAttribute("message","You successfully uploaded "+file.getOriginalFilename()+"!");
 
-		//アップロードされたファイルの処理
-		if(file.isEmpty() || file == null) 
+		//CSVからqaList分解し、qaListごとにSQL登録：読み取りエラーを起こした場合、Length =　1となるので、1から開始する
+		qalist = CsvDealSQL.deal(file);
+		for(int i = 1; i < qalist.size(); i++)
 		{
-			//空文字、もしくはNullだった場合
-			final Logger log = 	LoggerFactory.getLogger(StwwmakerApplication.class);
-			log.info("brank character");
-		}
-		else
-		{
-			//ログ表示(デバッグ用コンソール画面)
-			final Logger log = 	LoggerFactory.getLogger(StwwmakerApplication.class);
-			log.info(file.getOriginalFilename());
-			
-			//CSV展開処理
-			List<String> lines = new ArrayList<String>();
-			String line = null;
-			try 
-			{
-				//ファイル内を確認し、問題なければlinesに挿入
-				InputStream stream = file.getInputStream();
-				Reader reader = new InputStreamReader(stream);
-				BufferedReader buf = new BufferedReader(reader);
-				//1行ずつ読み込む
-				while((line = buf.readLine()) != null)
-				{
-					//1行ずつ追加する(この時点で\n分割できている)
-					lines.add(line);
-					log.info(line);
-				}	
-			}
-			catch(IOException e) 
-			{
-				//読み込みできなかった場合
-				log.info("Can't read contents.");
-			}
-
-			//読み込みできた部分まで出力
-			for(String s : lines)
-			{
-				//"="で前後に分ける
-				String[] elem = s.split("=",2);
-				//SQLにアクセスする
-				qalistRepository.save(new qaListRow(elem[1],elem[0]));
-				//ログ出力(ページに表示)
-				qalist.add(new qaListRow(elem[1],elem[0]));
-			}
+			//登録
+			qalistRepository.save(qalist.get(i));
 		}
 
 		//qaStrsに反映
@@ -116,7 +67,8 @@ public class StwwMain
 	}
 	
 	@RequestMapping(value="/qanda")
-	public ModelAndView qanda(@ModelAttribute qaObject qaList,@RequestParam("succ") int succ,@RequestParam("fail") int fail,Model model) {
+	public ModelAndView qanda(@RequestParam("succ") int succ,@RequestParam("fail") int fail,Model model) 
+	{
 		//返り値用
 		ModelAndView m = new ModelAndView();
 		
@@ -165,10 +117,4 @@ public class StwwMain
 	}
 	
 
-	public static class qaObject{
-		private String filename;
-		
-		public String getFilename() { return filename;	}
-		public void setFilename(String str) {	filename = str; }
-	}	
 }
