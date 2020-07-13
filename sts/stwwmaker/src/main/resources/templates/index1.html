@@ -2,39 +2,31 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title> title </title>
+	<title> 単語暗記野郎 </title>
 </head>
-<body> 
-	<p> Hello world! </p>
-	
+<body>
+	<p>クイズ問題・解答リストを投稿！</p>
+	<!-- qapush側：CSV展開をしてSQLに登録する側のフォーム -->
 	<form action="/qaPush" method="post" enctype="multipart/form-data" th:object="${qaListRow}">
 		<input type="file" id="qaInput" name="qaCsv" size="10"> <br>
-		<!--  <input type="text" name="question" value="question1" size="12" th:field="*{question}"> <br>
-		<input type="text" name="answer" value="answer1" size="12" th:field="*{answer}"> <br> -->
 		<button type="submit">展開</button>
 	</form>
-	<p>Look this</p>
 
+	<p>クイズを開始！</p>
+	<!-- qanda側：クイズを実際にやっていく側のフォーム -->
 	<form action="/qanda" method="get">
-		<p>問題選択</p> 
+		<p>問題選択</p>
 		<!-- ここに問題リストを書く -->
 		<table solid="2px">
-			<tr>
-			<th>問題名</th>
-			<th>説明</th>
-			</tr>
-			<tr>
-			<th><input type="radio" name="members0_name" value="title1">Title1</th>
-			<th>説明1</th>
-			</tr>
+			<tr><th>問題名</th><th>説明</th></tr>
+			<tr><td><input type="radio" name="members0_name" value="title1">Title1</td><td>説明1</td></tr>
 		</table>
+		<!-- 正解数・不正解数の操作(操作できない) -->
 		<ul>
-		<li><input type="text" name="succ" value="0" readonly></li>
-		<li><input type="text" name="fail" value="0" readonly></li>
+			<li><input type="text" name="succ" value="0" readonly></li>
+			<li><input type="text" name="fail" value="0" readonly></li>
 		</ul>
 		<button type="submit">開始</button>
-		
 	</form>
-
 </body>
 </html>
