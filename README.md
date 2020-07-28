@@ -1,5 +1,6 @@
 # studyWorkMaker
-CUIでも単語勉強ツール作れるんだもん！
+<s>CUIでも単語勉強ツール作れるんだもん！</s>
+最近CUIだけじゃなくWEB版も書いてしまったので矛盾してしまっている次第。
 
 :問題を作るモード
 :問題を解くモード
@@ -33,3 +34,9 @@ ESというよりは
 電験法規とか英単語とか覚えるのに使おうかなと思っている。
 ES多分計算問題とか論理問題とかばっかりだと思うし。
 
+---
+<h2>使い方</h2>
+CUI：コマンド「perl main.pl (問題解答データ)」
+WEB：Apacheに入れて使う。
+STS：Spring toolでビルドしてlocalhostに繋いで使う。
+詳しくは：<a href="https://usho64k.github.io/workspace/studyWorkMaker/studyWorkMaker.html">ここ</a>
