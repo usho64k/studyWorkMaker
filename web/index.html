@@ -10,12 +10,14 @@
 		ファイルを選んでください。<br>
 		<!-- CSVファイルのアップロード用フォーム -->
 		<form name="form1" method="post" action="./inputToSql.cgi" enctype="multipart/form-data">
-
 			<input type="file" id="csvSel" name="csvSel" size="8">
 			<input type="submit" name="submit" value="展開">
 			<br>
-			<a href="./stwwTest/index.html?succ=0&fail=0">どうぞ</a>
 		</form>
+		<form name="form2" method="get" action="./deleteSql.cgi" enctype="multipart/form-data">
+			<input type="submit" name="submit" value="delete">
+		</form>
+		<a href="./stwwTest/index.html?succ=0&fail=0">どうぞ</a>
 	</body>
 </html>
 
